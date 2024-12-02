@@ -5,12 +5,12 @@ In this project, we wish to simulate heat conduction in a non-insulated water ho
 
 We consider a cross-section of the water hose and consider the stationary heat equation. Let the hose’s cross-section be described by a domain \( D \) and let \( u : D \to \mathbb{R} \) be the heat distribution. Then the temperature distribution is described by the boundary value problem:
 
-\[
+\{
 \begin{cases} 
 -\text{div}(a \nabla u(x)) = f(x), & x \in D, \\
 a \partial_\nu u(x) = c (u_0 - u(x)), & x \in \partial D.
 \end{cases} \tag{B.1}
-\]
+\}
 
 Here \( a \) is the thermal conductivity coefficient of water, and \( c \) is the heat conductivity coefficient of the hose’s walls. Typical values are:
 
