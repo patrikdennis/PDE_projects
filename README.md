@@ -5,5 +5,5 @@ TBC
 
 
 
-## Project - BIE
+## Solving the Helmoltz equation and proving the optics theorem and scattering probelm using BIE 
 TBC
