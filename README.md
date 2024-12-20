@@ -1,9 +1,8 @@
-# Project - FEM
+# Project - Finite Element Method (FEM)
 ## B.1 Heat Equilibrium
 
 TBC
 
 
-
-## Solving the Helmoltz equation and proving the optics theorem and scattering probelm using BIE 
+# Project - Boundary Integral Equations (BIE) & Nyström method 
 TBC
