@@ -8,6 +8,7 @@ function val = Kernel(i, j, y1, y2, nu1, nu2, rvec, rprimevec, rbisvec, k, N)
         dx = y1(j) - y1(i);
         dy = y2(j) - y2(i);
         rdist = sqrt(dx^2 + dy^2); % Distance between points
+        %
         %grad_phi = besselh(1, k * rdist) * (k * [dx; dy] / rdist); % Gradient of Green's function
         grad_phi = (1i * k / 4) * (1 / rdist) * besselh(1, 1, k * rdist) * [dx; dy];
         val = grad_phi(1) * nu1(j) + grad_phi(2) * nu2(j); % Contribution
