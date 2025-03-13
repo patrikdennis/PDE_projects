@@ -2,13 +2,20 @@
 N = 4000;
 
 % Far-field directions
-theta_values = linspace(0, 2*pi, 360); 
+%theta_values = linspace(0, 2*pi, 360); 
+theta_values = linspace(-pi + 2*pi/N,pi,N);
+
+insertion_idx = find(theta_values > 0, 1); % First index where theta_values > 0
+
+% Split the array and insert 0
+theta_values_modified = [theta_values(1:insertion_idx-1), 0, theta_values(insertion_idx:end)];
+theta_values = theta_values_modified;
 
 % Chosen k-values to verify the optic theorem in R^2
 k_values = [0.5, 5];           
 
 % Domain discretization of smooth X-shape
-tvec = linspace(-pi, pi, N);
+tvec = linspace(-pi + 2*pi/N, pi, N);
 rvec = 3 + cos(4 * tvec + pi);
 rprimevec = -4 * sin(4 * tvec + pi);
 rbisvec = -16 * cos(4 * tvec + pi);
@@ -37,7 +44,8 @@ for k = k_values
             Kmat(i, j) = Kernel(i, j, y1, y2, nu1, nu2, rvec, rprimevec, rbisvec, k, N); 
         end
     end
-
+    
+    % DO WE HAVE - 0.5 I + K* or 0.5 I + K*? BOTH GIVES GOOD RESULTS.
     % Solve the BIE for h
     A = 0.5 * eye(N) + (2*pi/N) * Kmat.' * diag(dsdt);
     h = A \ gvec;
@@ -87,7 +95,9 @@ for k = k_values
     % Verify (6.10)
     dtheta = theta_values(2) - theta_values(1); 
     lhs = sum(abs(a_theta).^2) * dtheta;
-    a_0 = a_theta(1);  % assuming theta_values(1) = 0
+    %a_0 = a_theta(1);  % assuming theta_values(1) = 0
+    theta_zero_idx = find(theta_values == 0);
+    a_0 = a_theta(theta_zero_idx);  % Use the correct index for theta = 0
     rhs = imag(2*(1 - 1i)*sqrt(pi/k)*a_0);
 
     % Display results

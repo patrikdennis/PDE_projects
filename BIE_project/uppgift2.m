@@ -2,14 +2,18 @@
 k = 1;
 
 % Number of discretization points on the boundary
-N = 1000; 
-M = 100; % Number of field points in D^-
-p = [0; 0]; % Fixed point in D^+
+N = 4000;
+
+% Number of field points in D^-
+M = 100; 
+
+% Fixed point in D^+
+p = [0; 0]; 
 
 %% Boundary discretization
 
 % Parameterization variable
-tvec = linspace(-pi, pi, N);
+tvec = linspace(-pi + 2*pi/N, pi, N);
 
 % Radial distance
 rvec = 3 + cos(4 * tvec + pi);
@@ -58,7 +62,7 @@ for i = 1:N
 end
 
 % solve (1/2 I + (2pi/N)K^T*dsdt)h = g
-A = 0.5 * eye(N) + (2*pi / N) * Kmat.' * diag(dsdt);
+A = 0.5 * eye(N) + (2*pi / N) * Kmat.' * diag(dsdt.');
 h = A \ gvec;
 
 %% Compute numerical solution in D^-
@@ -172,7 +176,7 @@ xlabel('x'); ylabel('y');
 %% Plot absolute error
 
 % Compute the absolute error across the domain
-error_abs = abs(ufield_numerical - ufield_exact);
+error_abs = abs(ufield_numerical.' - ufield_exact.');
 
 % Compute the log10 of the absolute error
 log_error = log10(error_abs);
@@ -182,16 +186,25 @@ log_error(isnan(log_error)) = -Inf; % Set NaN to -Inf for better visualization i
 
 % Plot the log10 of the absolute error
 figure;
-imagesc(xfield, yfield, log_error.');
+imagesc(xfield, yfield, log_error);
 axis xy;
 colormap turbo;
 pbaspect([1 1 1]);
 colorbar;
 caxis([-15, 0]); % Adjust color range for better visualization (adjust as needed)
-title('Log10 of Absolute Error');
+title('Log10 of Absolute Error Real');
 xlabel('x');
 ylabel('y');
 
+
+%figure;
+%imagesc(xfield, yfield, log_error_imag.');
+%axis xy;
+%colormap turbo;
+%pbaspect([1 1 1]);
+%colorbar;
+%caxis([-15,0]);
+%title('Log10 of Absolute Error Imaginary')
 %% error convergence study
 
 % Parameters
@@ -207,7 +220,7 @@ for idx = 1:length(N_values)
     N = N_values(idx);
     
     % Boundary discretization
-    tvec = linspace(-pi, pi, N);
+    tvec = linspace(-pi + 2*pi/N, pi, N);
     rvec = 3 + cos(4 * tvec + pi);
     rprimevec = -4 * sin(4 * tvec + pi);
     rbisvec = -16 * cos(4 * tvec + pi);
@@ -304,7 +317,8 @@ k = 1; % Wavenumber
 M = 100; % Number of field points in D^-
 p = [0; 0]; % Fixed point in D^+
 
-N_values = [200, 400, 800, 1600]; % Different values of N
+N_values = [200,400,800,1600,2000,4000,10000];
+
 errors_real = zeros(size(N_values)); % Store real part average errors
 errors_imag = zeros(size(N_values)); % Store imaginary part average errors
 
@@ -313,7 +327,7 @@ for idx = 1:length(N_values)
     N = N_values(idx);
     
     %  Boundary discretization
-    tvec = linspace(-pi, pi, N);
+    tvec = linspace(-pi + 2*pi/N, pi, N);
     rvec = 3 + cos(4 * tvec + pi);
     rprimevec = -4 * sin(4 * tvec + pi);
     rbisvec = -16 * cos(4 * tvec + pi);

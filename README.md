@@ -1,9 +1,8 @@
-# Project - FEM
+# Project - Finite Element Method (FEM)
 ## B.1 Heat Equilibrium
 
 TBC
 
 
-
-## Project - BIE
+# Project - Boundary Integral Equations (BIE) & Nyström method 
 TBC

@@ -10,7 +10,7 @@ M = 100;
 %% Boundary discretization
 
 % Parameterization variable
-tvec = linspace(-pi, pi, N);
+tvec = linspace(-pi + N, pi, N);
 
 % Radial distance
 rvec = 3 + cos(4*tvec + pi);
